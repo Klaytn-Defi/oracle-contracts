@@ -2,8 +2,6 @@ import { HardhatUserConfig } from 'hardhat/types';
 import {
   NETWORKS_RPC_URL,
   NETWORKS_DEFAULT_GAS,
-  BLOCK_TO_FORK,
-  buildForkConfig,
 } from './helper-hardhat-config';
 import { eAvalancheNetwork, eEthereumNetwork, eKlaytnNetwork, eNetwork, ePolygonNetwork, eXDaiNetwork } from './helpers/types';
 
@@ -16,7 +14,7 @@ const DEFAULT_GAS_MUL = 5;
 const HARDFORK = 'istanbul';
 //const ETHERSCAN_KEY = process.env.ETHERSCAN_KEY || '';
 const MNEMONIC_PATH = "m/44'/60'/0'/0";
-const MNEMONIC = process.env.MNEMONIC || '';
+const PRIVATE_KEY = process.env.PRIVATE_KEY || '';
 //const UNLIMITED_BYTECODE_SIZE = process.env.UNLIMITED_BYTECODE_SIZE === 'true';
 
 const getCommonNetworkConfig = (networkName: eNetwork, networkId: number) => ({
@@ -26,12 +24,7 @@ const getCommonNetworkConfig = (networkName: eNetwork, networkId: number) => ({
   gasMultiplier: DEFAULT_GAS_MUL,
   gasPrice: NETWORKS_DEFAULT_GAS[networkName],
   chainId: networkId,
-  accounts: {
-    mnemonic: MNEMONIC,
-    path: MNEMONIC_PATH,
-    initialIndex: 0,
-    count: 20,
-  },
+  accounts: [PRIVATE_KEY]
 });
 
 const buidlerConfig: HardhatUserConfig = {
@@ -40,8 +33,7 @@ const buidlerConfig: HardhatUserConfig = {
       {
         version: '0.7.6',
         settings: {
-          optimizer: { enabled: true, runs: 200 },
-          evmVersion: 'istanbul',
+          optimizer: { enabled: true, runs: 200 }
         },
       }
     ]
@@ -52,7 +44,6 @@ const buidlerConfig: HardhatUserConfig = {
   networks: {
     kovan: getCommonNetworkConfig(eEthereumNetwork.kovan, 42),
     ropsten: getCommonNetworkConfig(eEthereumNetwork.ropsten, 3),
-    rinkeby: getCommonNetworkConfig(eEthereumNetwork.rinkeby, 4),
     main: getCommonNetworkConfig(eEthereumNetwork.main, 1),
     tenderly: getCommonNetworkConfig(eEthereumNetwork.tenderly, 3030),
     matic: getCommonNetworkConfig(ePolygonNetwork.matic, 137),

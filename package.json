@@ -12,5 +12,11 @@
   "dependencies": {
     "ts-node": "^10.6.0",
     "typescript": "^4.6.2"
+  },
+  "scripts": {
+    "hardhat": "hardhat",
+    "deploy:hardhat:klaytn_testnet": "npx hardhat run scripts/launch_script.js --network klaytn_testnet",
+    "deploy:hardhat:klaytn": "npx hardhat run scripts/launch_script.js --network klaytn",
+    "deploy:hardhat:fuji": "npx hardhat run scripts/launch_script.js --network fuji"
   }
 }

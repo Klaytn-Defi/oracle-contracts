@@ -2,9 +2,10 @@
 pragma solidity 0.7.6;
 pragma abicoder v2;
 
+import {Owned} from "./interfaces/AggregatorInterfaces.sol";
 import "./interfaces/IOracleController.sol";
 
-contract LocalAggregator {
+contract LocalAggregator is Owned {
   int256 private _latestAnswer;
   string public description;
   uint80 public decimals;
@@ -21,16 +22,20 @@ contract LocalAggregator {
 
   event AnswerUpdated(int256 indexed current, uint256 indexed roundId, uint256 timestamp);
 
-  constructor(int256 _initialAnswer, uint80 _decimals, address _controller) public {
-    _latestAnswer = _initialAnswer;
+  constructor(string memory _description, uint80 _decimals) public Owned() {
+    _latestAnswer = 0;
+    description = _description;
     decimals = _decimals;
+  }
+
+  function setController(address _controller) external onlyOwner {
     controller = IOracleController(_controller);
-    emit AnswerUpdated(_initialAnswer, 0, block.timestamp);
   }
 
   function setAnswer(int256 answer) external {
     require(msg.sender == address(controller));
     _latestAnswer = answer;
+    emit AnswerUpdated(answer, 0, block.timestamp);
   }
 
   function latestAnswer() external view returns (int256) {

@@ -28,7 +28,12 @@ contract OracleController is Owned, IOracleController {
     return oracles;
   }
 
-  function setOracleData(int256[] memory _data) external override {
+  function addOracle(address newOracle) public onlyOwner {
+    oracle[oracleLength] = newOracle;
+    oracleLength += 1;
+  }
+
+  function setOracleData(int256[] memory _data) external override onlyOwner {
     for (uint256 i = 0; i < oracleLength; i++) {
       ILocalAggregator agg = ILocalAggregator(_data[i]);
       agg.setAnswer(_data[i]);

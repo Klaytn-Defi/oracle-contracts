@@ -14,40 +14,25 @@ require('dotenv').config();
 const INFURA_KEY = process.env.INFURA_KEY || '';
 const ALCHEMY_KEY = process.env.ALCHEMY_KEY || '';
 const TENDERLY_FORK_ID = process.env.TENDERLY_FORK_ID || '';
-const FORK = process.env.FORK || '';
+const FORK = process.env.FORK;
 const FORK_BLOCK_NUMBER = process.env.FORK_BLOCK_NUMBER
   ? parseInt(process.env.FORK_BLOCK_NUMBER)
   : 0;
 
 const GWEI = 1000 * 1000 * 1000;
 
-export const buildForkConfig = (): HardhatNetworkForkingUserConfig | undefined => {
-  let forkMode;
-  if (FORK) {
-    forkMode = {
-      url: NETWORKS_RPC_URL[FORK],
-    };
-    if (FORK_BLOCK_NUMBER || BLOCK_TO_FORK[FORK]) {
-      forkMode.blockNumber = FORK_BLOCK_NUMBER || BLOCK_TO_FORK[FORK];
-    }
-  }
-  return forkMode;
-};
-
-export const NETWORKS_RPC_URL: iParamsPerNetwork<string> = {
+export const NETWORKS_RPC_URL = {
   [eEthereumNetwork.kovan]: ALCHEMY_KEY
     ? `https://eth-kovan.alchemyapi.io/v2/${ALCHEMY_KEY}`
     : `https://kovan.infura.io/v3/${INFURA_KEY}`,
   [eEthereumNetwork.ropsten]: ALCHEMY_KEY
     ? `https://eth-ropsten.alchemyapi.io/v2/${ALCHEMY_KEY}`
     : `https://ropsten.infura.io/v3/${INFURA_KEY}`,
-  [eEthereumNetwork.rinkeby]: `https://rinkeby.infura.io/v3/${INFURA_KEY}`,
   [eEthereumNetwork.main]: ALCHEMY_KEY
     ? `https://eth-mainnet.alchemyapi.io/v2/${ALCHEMY_KEY}`
     : `https://mainnet.infura.io/v3/${INFURA_KEY}`,
   [eEthereumNetwork.coverage]: 'http://localhost:8555',
   [eEthereumNetwork.hardhat]: 'http://localhost:8545',
-  [eEthereumNetwork.buidlerevm]: 'http://localhost:8545',
   [eEthereumNetwork.tenderly]: `https://rpc.tenderly.co/fork/`,
   [ePolygonNetwork.mumbai]: 'https://rpc-mumbai.maticvigil.com',
   [ePolygonNetwork.matic]:
@@ -58,16 +43,15 @@ export const NETWORKS_RPC_URL: iParamsPerNetwork<string> = {
   [eAvalancheNetwork.avalanche]: 'https://api.avax.network/ext/bc/C/rpc',
   [eAvalancheNetwork.fuji]: 'https://api.avax-test.network/ext/bc/C/rpc',
   [eKlaytnNetwork.cypress]: "https://public-node-api.klaytnapi.com/v1/cypress",
-  [eKlaytnNetwork.baobab]: "https://public-node-api.klaytnapi.com/v1/baobab"
+  [eKlaytnNetwork.baobab]: "https://api.baobab.klaytn.net:8651"
 };
 
-export const NETWORKS_DEFAULT_GAS: iParamsPerNetwork<number> = {
+export const NETWORKS_DEFAULT_GAS = {
   [eEthereumNetwork.kovan]: 3 * GWEI,
   [eEthereumNetwork.ropsten]: 65 * GWEI,
   [eEthereumNetwork.main]: 65 * GWEI,
   [eEthereumNetwork.coverage]: 65 * GWEI,
   [eEthereumNetwork.hardhat]: 65 * GWEI,
-  [eEthereumNetwork.buidlerevm]: 65 * GWEI,
   [eEthereumNetwork.tenderly]: 1 * GWEI,
   [ePolygonNetwork.mumbai]: 35 * GWEI,
   [ePolygonNetwork.matic]: 35 * GWEI,
@@ -75,7 +59,7 @@ export const NETWORKS_DEFAULT_GAS: iParamsPerNetwork<number> = {
   [eAvalancheNetwork.avalanche]: 225 * GWEI,
   [eAvalancheNetwork.fuji]: 85 * GWEI,
   [eKlaytnNetwork.cypress]: 85 * GWEI,
-  [eKlaytnNetwork.baobab]: 85 * GWEI
+  [eKlaytnNetwork.baobab]: 25000000000
 };
 
 export const BLOCK_TO_FORK: iParamsPerNetwork<number | undefined> = {
@@ -84,11 +68,12 @@ export const BLOCK_TO_FORK: iParamsPerNetwork<number | undefined> = {
   [eEthereumNetwork.ropsten]: undefined,
   [eEthereumNetwork.coverage]: undefined,
   [eEthereumNetwork.hardhat]: undefined,
-  [eEthereumNetwork.buidlerevm]: undefined,
   [eEthereumNetwork.tenderly]: undefined,
   [ePolygonNetwork.mumbai]: undefined,
   [ePolygonNetwork.matic]: undefined,
   [eXDaiNetwork.xdai]: undefined,
   [eAvalancheNetwork.avalanche]: undefined,
   [eAvalancheNetwork.fuji]: undefined,
+  [eKlaytnNetwork.cypress]: undefined,
+  [eKlaytnNetwork.baobab]: undefined
 };
