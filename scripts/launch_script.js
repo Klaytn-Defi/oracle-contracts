@@ -5,6 +5,8 @@
 // Runtime Environment's members available in the global scope.
 const hre = require("hardhat");
 
+const waitForTx = async (tx) => await tx.wait(1);
+
 async function main() {
   // Hardhat always runs the compile task when running scripts with its command
   // line interface.
@@ -24,10 +26,15 @@ async function main() {
   const btc = await Aggregator.deploy("BTC", 18)
 
   await eth.deployed()
+  console.log(eth.deployTransaction.hash)
   await klay.deployed()
+  console.log(klay.deployTransaction.hash)
   await usd.deployed()
+  console.log(usd.deployTransaction.hash)
   await dai.deployed()
+  console.log(dai.deployTransaction.hash)
   await btc.deployed()
+  console.log(btc.deployTransaction.hash)
   
   const controller = await Controller.deploy([
     eth.address,
@@ -38,12 +45,18 @@ async function main() {
   ]);
 
   await controller.deployed()
+  console.log(controller.deployTransaction.hash)
 
-  await eth.setController(controller.address)
-  await klay.setController(controller.address)
-  await usd.setController(controller.address)
-  await dai.setController(controller.address)
-  await btc.setController(controller.address)
+  await waitForTx(await eth.setController(controller.address))
+  console.log("eth set")
+  await waitForTx(await klay.setController(controller.address))
+  console.log("klay set")
+  await waitForTx(await usd.setController(controller.address))
+  console.log("usdc set")
+  await waitForTx(await dai.setController(controller.address))
+  console.log("dai set")
+  await waitForTx(await btc.setController(controller.address))
+  console.log("btc set")
 
   console.log("Controller:", controller.address);
   console.log("ETH:", eth.address);
