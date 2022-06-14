@@ -13,19 +13,19 @@ contract OracleController is Owned, IOracleController {
   mapping(uint256 => address) public override oracle;
   uint256 public override oracleLength;
 
-  constructor (address[] memory oracles) public Owned() {
-    for (uint256 i = 0; i < oracles.length; i++) {
-      oracle[i] = oracles[i];
+  constructor (address[] memory _oracles) Owned() {
+    for (uint256 i = 0; i < _oracles.length; i++) {
+      oracle[i] = _oracles[i];
       oracleLength += 1;
     }
   }
 
-  function oracles() public override returns (address[] memory) {
-    address[] memory oracles = new address[](oracleLength);
+  function oracles() public view override returns (address[] memory) {
+    address[] memory _oracles = new address[](oracleLength);
     for (uint256 i = 0; i < oracleLength; i++) {
-      oracles[i] = oracle[i];
+      _oracles[i] = oracle[i];
     }
-    return oracles;
+    return _oracles;
   }
 
   function addOracle(address newOracle) public onlyOwner {

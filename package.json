@@ -16,8 +16,8 @@
   "scripts": {
     "hardhat": "hardhat",
     "test": "hardhat test ./test/*.spec.js",
-    "deploy:hardhat:klaytn_testnet": "npx hardhat run scripts/launch_script.js --network klaytn_testnet",
-    "deploy:hardhat:klaytn": "npx hardhat run scripts/launch_script.js --network klaytn",
+    "deploy:hardhat:baobab": "npx hardhat run scripts/launch_script.js --network baobab",
+    "deploy:hardhat:cypress": "npx hardhat run scripts/launch_script.js --network cypress",
     "deploy:hardhat:fuji": "npx hardhat run scripts/launch_script.js --network fuji"
   }
 }

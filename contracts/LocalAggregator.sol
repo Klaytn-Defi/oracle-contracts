@@ -22,7 +22,7 @@ contract LocalAggregator is Owned {
 
   event AnswerUpdated(int256 indexed current, uint256 indexed roundId, uint256 timestamp);
 
-  constructor(string memory _description, uint80 _decimals) public Owned() {
+  constructor(string memory _description, uint80 _decimals) Owned() {
     _latestAnswer = 0;
     description = _description;
     decimals = _decimals;

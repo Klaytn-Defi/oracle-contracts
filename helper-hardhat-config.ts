@@ -58,8 +58,8 @@ export const NETWORKS_DEFAULT_GAS = {
   [eXDaiNetwork.xdai]: 1 * GWEI,
   [eAvalancheNetwork.avalanche]: 225 * GWEI,
   [eAvalancheNetwork.fuji]: 85 * GWEI,
-  [eKlaytnNetwork.cypress]: 85 * GWEI,
-  [eKlaytnNetwork.baobab]: 25000000000
+  [eKlaytnNetwork.baobab]: 250000000000,
+  [eKlaytnNetwork.cypress]: 250000000000,
 };
 
 export const BLOCK_TO_FORK: iParamsPerNetwork<number | undefined> = {

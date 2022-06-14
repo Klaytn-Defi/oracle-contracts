@@ -14,7 +14,7 @@ const DEFAULT_GAS_MUL = 5;
 const HARDFORK = 'istanbul';
 //const ETHERSCAN_KEY = process.env.ETHERSCAN_KEY || '';
 const MNEMONIC_PATH = "m/44'/60'/0'/0";
-const PRIVATE_KEY = process.env.PRIVATE_KEY || '';
+const MNEMONIC = process.env.MNEMONIC || '';
 //const UNLIMITED_BYTECODE_SIZE = process.env.UNLIMITED_BYTECODE_SIZE === 'true';
 
 const getCommonNetworkConfig = (networkName: eNetwork, networkId: number) => ({
@@ -24,7 +24,7 @@ const getCommonNetworkConfig = (networkName: eNetwork, networkId: number) => ({
   gasMultiplier: DEFAULT_GAS_MUL,
   gasPrice: NETWORKS_DEFAULT_GAS[networkName],
   chainId: networkId,
-  accounts: [PRIVATE_KEY]
+  accounts: [`${process.env.PRIVATE_KEY}`],
 });
 
 const buidlerConfig: HardhatUserConfig = {
@@ -32,6 +32,12 @@ const buidlerConfig: HardhatUserConfig = {
     compilers: [
       {
         version: '0.7.6',
+        settings: {
+          optimizer: { enabled: true, runs: 200 }
+        },
+      },
+      {
+        version: '0.5.6',
         settings: {
           optimizer: { enabled: true, runs: 200 }
         },
@@ -51,8 +57,8 @@ const buidlerConfig: HardhatUserConfig = {
     xdai: getCommonNetworkConfig(eXDaiNetwork.xdai, 100),
     avalanche: getCommonNetworkConfig(eAvalancheNetwork.avalanche, 43114),
     fuji: getCommonNetworkConfig(eAvalancheNetwork.fuji, 43113),
-    klaytn: getCommonNetworkConfig(eKlaytnNetwork.cypress, 8217),
-    klaytn_testnet: getCommonNetworkConfig(eKlaytnNetwork.baobab, 1001),
+    cypress: getCommonNetworkConfig(eKlaytnNetwork.cypress, 8217),
+    baobab: getCommonNetworkConfig(eKlaytnNetwork.baobab, 1001),
     ganache: {
       url: 'http://ganache:8545',
       accounts: {
